@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">TFG_ChatoChat</string>
+    <string name="app_name">ChatoChat</string>
+    <string name="nombre_desarrollador">Pablo Ortiz</string>
 </resources>
