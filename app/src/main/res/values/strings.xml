@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">ChatoChat</string>
     <string name="nombre_desarrollador">Pablo Ortiz</string>
+
+    <string name ="BotonIrRegistro">Registrarme</string>
+    <string name="BotonIrLogeo">Entrar</string>
 </resources>
