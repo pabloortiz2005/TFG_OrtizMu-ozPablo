@@ -4,4 +4,10 @@
 
     <string name ="BotonIrRegistro">Registrarme</string>
     <string name="BotonIrLogeo">Entrar</string>
+
+    <string name="RegistroNombre">Nombre de usuario</string>
+    <string name="RegistroCorreo">Correo electrónico</string>"
+    <string name="RegistroContraseña">Contraseña</string>"
+    <string name="RegistroConfirmarContraseña">Confirmar contraseña</string>"
+    <string name="RegistroBotonRegistrar">Registrar</string>"
 </resources>

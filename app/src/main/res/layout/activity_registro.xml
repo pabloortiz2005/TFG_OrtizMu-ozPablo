@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
@@ -7,4 +7,51 @@
     android:layout_height="match_parent"
     tools:context=".RegistroActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="10dp">
+        
+        <EditText
+            android:id="@+id/RegistroNombre"
+            android:hint="@string/RegistroNombre"
+            android:inputType="text"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <EditText
+            android:id="@+id/RegistroCorreo"
+            android:hint="@string/RegistroCorreo"
+            android:inputType="textEmailAddress"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <EditText
+            android:id="@+id/RegistroContraseña"
+            android:hint="@string/RegistroContraseña"
+            android:inputType="textPassword"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <EditText
+            android:id="@+id/RegistroConfirmarContraseña"
+            android:hint="@string/RegistroConfirmarContraseña"
+            android:inputType="textPassword"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:id="@+id/RegistroBotonRegistrar"
+            android:text="@string/RegistroBotonRegistrar"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        
+
+
+    </LinearLayout>
+
+</RelativeLayout>
