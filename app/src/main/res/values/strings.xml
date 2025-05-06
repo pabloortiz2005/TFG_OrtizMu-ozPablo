@@ -10,4 +10,11 @@
     <string name="RegistroContraseña">Contraseña</string>"
     <string name="RegistroConfirmarContraseña">Confirmar contraseña</string>"
     <string name="RegistroBotonRegistrar">Registrar</string>"
+    
+    <string name="menu_salir">Cerrar Sesión</string>
+
+    <string name="LoginCorreo">Correo electrónico</string>"
+    <string name="LoginContra">Contraseña</string>"
+    <string name="LoginBotonIniciarSesion">Iniciar Sesión</string>"
+
 </resources>
