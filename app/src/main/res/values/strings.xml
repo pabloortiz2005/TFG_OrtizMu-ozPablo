@@ -2,7 +2,7 @@
     <string name="app_name">ChatoChat</string>
     <string name="nombre_desarrollador">Pablo Ortiz</string>
 
-    <string name ="BotonIrRegistro">Registrarme</string>
+    <string name="BotonIrRegistro">Registrarme</string>
     <string name="BotonIrLogeo">Entrar</string>
 
     <string name="RegistroNombre">Nombre de usuario</string>
@@ -10,7 +10,7 @@
     <string name="RegistroContraseña">Contraseña</string>"
     <string name="RegistroConfirmarContraseña">Confirmar contraseña</string>"
     <string name="RegistroBotonRegistrar">Registrar</string>"
-    
+
     <string name="menu_salir">Cerrar Sesión</string>
 
     <string name="LoginCorreo">Correo electrónico</string>"

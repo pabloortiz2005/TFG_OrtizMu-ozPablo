@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "1052404957074",
-    "project_id": "chatochat-e1208",
-    "storage_bucket": "chatochat-e1208.firebasestorage.app"
+    "project_number": "533614703541",
+    "project_id": "chatochat-7f1fa",
+    "storage_bucket": "chatochat-7f1fa.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1052404957074:android:3853e6ba799c6b059d4b4b",
+        "mobilesdk_app_id": "1:533614703541:android:018c06545332bec19ddffc",
         "android_client_info": {
           "package_name": "com.pablo.tfg_chatochat"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBd5q6qEHTak67GsthrZmJiehZvFAHC1WE"
+          "current_key": "AIzaSyCcQSdpUB3ITca0rvqcqog9hV7-NQVLK7Q"
         }
       ],
       "services": {

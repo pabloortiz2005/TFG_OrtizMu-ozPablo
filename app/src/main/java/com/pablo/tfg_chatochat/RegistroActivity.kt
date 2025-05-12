@@ -69,14 +69,12 @@ class RegistroActivity : AppCompatActivity() {
         auth.createUserWithEmailAndPassword(correo, contraseña)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    var uid: String = ""
-                    uid = auth.currentUser!!.uid
-                    reference =
-                        FirebaseDatabase.getInstance().reference.child("Usuarios").child(uid)
+                    val uid = auth.currentUser!!.uid
+                    reference = FirebaseDatabase.getInstance().reference.child("Usuarios").child(uid)
 
                     val hashmap = HashMap<String, Any>()
-                    val h_nombre: String = RegistroNombre.text.toString()
-                    val h_correo: String = RegistroCorreo.text.toString()
+                    val h_nombre = RegistroNombre.text.toString()
+                    val h_correo = RegistroCorreo.text.toString()
 
                     hashmap["uid"] = uid
                     hashmap["nombre"] = h_nombre
@@ -86,16 +84,21 @@ class RegistroActivity : AppCompatActivity() {
 
                     reference.updateChildren(hashmap).addOnCompleteListener { task2 ->
                         if (task2.isSuccessful) {
+
+
+
                             Toast.makeText(
                                 this,
                                 "Usuario registrado correctamente",
                                 Toast.LENGTH_SHORT
                             ).show()
-                            val intent = Intent(this@RegistroActivity, Inicio::class.java)
+
+                            val intent = Intent(this@RegistroActivity, MainActivity::class.java)
                             startActivity(intent)
                             finish()
-                        }
 
+
+                        }
                     }.addOnFailureListener { e ->
                         Toast.makeText(
                             this,
@@ -109,4 +112,5 @@ class RegistroActivity : AppCompatActivity() {
                     .show()
             }
     }
+
 }

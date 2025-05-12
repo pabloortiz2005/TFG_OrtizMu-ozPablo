@@ -38,6 +38,8 @@ android {
 
 dependencies {
 
+    implementation ("com.google.gms:google-services:4.4.2")
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -49,6 +51,9 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    implementation ("com.makeramen:roundedimageview:2.3.0")
+
 
     //firebase
     implementation("com.google.firebase:firebase-analytics")
