@@ -12,54 +12,95 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.*
+import com.pablo.tfg_chatochat.model.Chat
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var textName: TextView
-
+    private lateinit var toolbar: Toolbar
+    private lateinit var recyclerViewChats: RecyclerView
+    private lateinit var chatsAdapter: ChatsAdapter
+    private val listaChats = ArrayList<Chat>()
+    private lateinit var database: DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-
         setContentView(R.layout.activity_main)
-        val toolbar = findViewById<Toolbar>(R.id.toolbar)
+        toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
-        val nombreUsuario = intent.getStringExtra("nombreUsuario")
-        if (nombreUsuario != null) {
-            textName.text = nombreUsuario
+        // Configurar RecyclerView de chats
+        recyclerViewChats = findViewById(R.id.recyclerViewChats)
+        recyclerViewChats.layoutManager = LinearLayoutManager(this)
+        chatsAdapter = ChatsAdapter(listaChats) { chat ->
+            // Al pulsar un chat, abres la pantalla de ChatActivity
+            val intent = Intent(this, Chat::class.java)
+            intent.putExtra("chatId", chat.chatId)
+            startActivity(intent)
         }
+        recyclerViewChats.adapter = chatsAdapter
+
+
+        database = FirebaseDatabase.getInstance().getReference("chats")
+
+
+        cargarChats()
 
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            val sys = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(sys.left, sys.top, sys.right, sys.bottom)
             insets
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        val inflater: MenuInflater = menuInflater
-        inflater.inflate(R.menu.menu_principal, menu)
-        return true
+    private fun cargarChats() {
+
+        val uidActual = FirebaseAuth.getInstance().currentUser?.uid ?: return
+        database.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                listaChats.clear()
+                for (chatSnap in snapshot.children) {
+                    val chat = chatSnap.getValue(Chat::class.java)
+                    // Filtra solo aquellos en los que participe el usuario logueado
+                    if (chat != null && chat.participants.contains(uidActual)) {
+                        listaChats.add(chat)
+                    }
+                }
+                chatsAdapter.notifyDataSetChanged()
+            }
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(this@MainActivity,
+                    "Error al leer chats: ${error.message}", Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_principal, menu)
+        return true
+    }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.menu_salir -> {
                 FirebaseAuth.getInstance().signOut()
-                val intent = Intent(this@MainActivity, Inicio::class.java)
-                Toast.makeText(applicationContext, "Sesión cerrada", Toast.LENGTH_SHORT).show()
-                startActivity(intent)
-                return true
+                Toast.makeText(this, "Sesión cerrada", Toast.LENGTH_SHORT).show()
+                startActivity(Intent(this, Inicio::class.java))
+                finish()
+                true
+            }
+            R.id.menu_lista_usuarios -> {
+                // Abre la lista de usuarios
+                startActivity(Intent(this, ListaUsuariosActivity::class.java))
+                true
             }
             else -> super.onOptionsItemSelected(item)
         }
     }
-
-
 }

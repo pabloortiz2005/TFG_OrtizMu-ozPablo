@@ -6,4 +6,10 @@
         android:id="@+id/menu_salir"
         android:title="@string/menu_salir"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_lista_usuarios"
+        android:title="Usuarios"
+        android:icon="@drawable/ic_user"
+        app:showAsAction="never"/>
+
 </menu>

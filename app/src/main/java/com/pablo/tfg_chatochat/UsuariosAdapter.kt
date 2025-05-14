@@ -28,7 +28,7 @@ class UsuariosAdapter(
         private val usernameTextView: TextView = itemView.findViewById(R.id.usernameTextView)
 
         fun bind(usuario: Usuario) {
-            usernameTextView.text = usuario.username
+            usernameTextView.text = usuario.nombre
             itemView.setOnClickListener {
                 onUserSelected(usuario)
             }

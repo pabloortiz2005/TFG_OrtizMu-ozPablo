@@ -2,6 +2,7 @@ package com.pablo.tfg_chatochat
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -81,7 +82,7 @@ class RegistroActivity : AppCompatActivity() {
                     hashmap["correo"] = h_correo
                     hashmap["imagen"] = ""
                     hashmap["buscar"] = h_nombre.lowercase()
-
+                    Log.d("FIREBASE_REGISTRO", "Guardando datos en: Usuarios/$uid")
                     reference.updateChildren(hashmap).addOnCompleteListener { task2 ->
                         if (task2.isSuccessful) {
 

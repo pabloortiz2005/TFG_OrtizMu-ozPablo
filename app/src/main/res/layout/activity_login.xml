@@ -7,37 +7,36 @@
     android:layout_height="match_parent"
     tools:context=".LoginActivity">
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:gravity="center"
         android:padding="10dp">
-        
+
         <EditText
             android:id="@+id/LoginCorreo"
             android:hint="@string/LoginCorreo"
             android:inputType="textEmailAddress"
+            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="wrap_content" />
+
         <EditText
             android:id="@+id/LoginContra"
             android:hint="@string/LoginContra"
             android:inputType="textPassword"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="wrap_content" />
 
         <Button
             android:id="@+id/LoginBotonIniciarSesion"
             android:text="@string/LoginBotonIniciarSesion"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            />
-        
-    </LinearLayout>
+            android:layout_height="wrap_content" />
 
+    </LinearLayout>
 
 </RelativeLayout>

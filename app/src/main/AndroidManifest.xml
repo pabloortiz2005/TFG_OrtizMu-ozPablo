@@ -39,6 +39,13 @@
         <activity
             android:name=".MainActivity"
             android:exported="true" />
+        <activity
+            android:name=".ListaUsuariosActivity"
+            android:exported="false" />
+
+
+
+
 
         <service
             android:name=".firebase.MessagingService"
