@@ -6,12 +6,12 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import java.text.SimpleDateFormat
-import com.pablo.tfg_chatochat.model.Chat
+import com.pablo.tfg_chatochat.model.ChatModel
 import java.util.*
 
 class ChatsAdapter(
-    private val chats: List<Chat>,
-    private val onChatSelected: (Chat) -> Unit
+    private val chats: List<ChatModel>,
+    private val onChatSelected: (ChatModel) -> Unit
 ) : RecyclerView.Adapter<ChatsAdapter.ChatViewHolder>() {
 
     inner class ChatViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -19,11 +19,11 @@ class ChatsAdapter(
         private val lastMsgTxt: TextView = itemView.findViewById(R.id.chatLastMessage)
         private val timeTxt: TextView = itemView.findViewById(R.id.chatTimestamp)
 
-        fun bind(chat: Chat) {
-            titleTxt.text = chat.title
-            lastMsgTxt.text = chat.lastMessage
+        fun bind(chat: ChatModel) {
+            titleTxt.text = chat.titulo
+            lastMsgTxt.text = chat.ultimoMensaje
             timeTxt.text = SimpleDateFormat("HH:mm", Locale.getDefault())
-                .format(Date(chat.timestamp))
+                .format(Date(chat.timestampUltimoMensaje))
 
             itemView.setOnClickListener { onChatSelected(chat) }
         }

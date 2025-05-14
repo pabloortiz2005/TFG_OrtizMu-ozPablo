@@ -3,9 +3,7 @@ package com.pablo.tfg_chatochat
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
-import android.view.MenuInflater
 import android.view.MenuItem
-import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -16,14 +14,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
-import com.pablo.tfg_chatochat.model.Chat
+import com.pablo.tfg_chatochat.model.ChatModel
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var toolbar: Toolbar
     private lateinit var recyclerViewChats: RecyclerView
     private lateinit var chatsAdapter: ChatsAdapter
-    private val listaChats = ArrayList<Chat>()
+    private val listaChats = ArrayList<ChatModel>()
     private lateinit var database: DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,8 +37,9 @@ class MainActivity : AppCompatActivity() {
         recyclerViewChats.layoutManager = LinearLayoutManager(this)
         chatsAdapter = ChatsAdapter(listaChats) { chat ->
             // Al pulsar un chat, abres la pantalla de ChatActivity
-            val intent = Intent(this, Chat::class.java)
+            val intent = Intent(this, ChatActivity::class.java)
             intent.putExtra("chatId", chat.chatId)
+            intent.putExtra("uidReceptor", chat.uidReceptor)
             startActivity(intent)
         }
         recyclerViewChats.adapter = chatsAdapter
@@ -66,7 +65,7 @@ class MainActivity : AppCompatActivity() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 listaChats.clear()
                 for (chatSnap in snapshot.children) {
-                    val chat = chatSnap.getValue(Chat::class.java)
+                    val chat = chatSnap.getValue(ChatModel::class.java)
                     // Filtra solo aquellos en los que participe el usuario logueado
                     if (chat != null && chat.participants.contains(uidActual)) {
                         listaChats.add(chat)

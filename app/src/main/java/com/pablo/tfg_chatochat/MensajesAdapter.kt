@@ -9,7 +9,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class MensajesAdapter(
-    private val mensajes: List<Mensaje>,
+    private val mensajes: MutableList<Mensaje>, // Lista mutable
     private val uidActual: String
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -48,6 +48,11 @@ class MensajesAdapter(
                 holder.textoHora.text = hora
             }
         }
+    }
+
+    fun agregarMensaje(mensaje: Mensaje) {
+        mensajes.add(mensaje)
+        notifyItemInserted(mensajes.size - 1)
     }
 
     class EnviadoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
