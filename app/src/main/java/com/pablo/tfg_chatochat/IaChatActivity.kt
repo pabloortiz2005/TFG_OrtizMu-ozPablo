@@ -59,12 +59,12 @@ class IaChatActivity : AppCompatActivity() {
             }
         }
     }
-
+//
     private fun simularRespuestaIA(pregunta: String) {
         val client = OkHttpClient.Builder()
             .addInterceptor { chain ->
                 val newRequest = chain.request().newBuilder()
-                    .addHeader("Authorization", "Bearer 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")
+                    .addHeader("Authorization", "Bearer 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")
                     .build()
                 chain.proceed(newRequest)
             }
