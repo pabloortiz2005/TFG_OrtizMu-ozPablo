@@ -61,6 +61,71 @@ class IaChatActivity : AppCompatActivity() {
     }
 
     private fun simularRespuestaIA(pregunta: String) {
+        val client = OkHttpClient.Builder()
+            .addInterceptor { chain ->
+                val newRequest = chain.request().newBuilder()
+                    .addHeader("Authorization", "Bearer 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")
+                    .build()
+                chain.proceed(newRequest)
+            }
+            .build()
 
+        val retrofit = Retrofit.Builder()
+            .baseUrl("https://api.openai.com/")
+            .client(client)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        val service = retrofit.create(OpenAiService::class.java)
+        val mensajes = listOf(Message(role = "user", content = pregunta))
+
+        val request = OpenAiRequest(
+            model = "gpt-3.5-turbo",
+            messages = mensajes
+        )
+
+        service.enviarMensaje(request).enqueue(object : Callback<OpenAiResponse> {
+            override fun onResponse(
+                call: Call<OpenAiResponse>,
+                response: Response<OpenAiResponse>
+            ) {
+                if (response.isSuccessful) {
+                    val respuesta = response.body()?.choices?.firstOrNull()?.message?.content
+                        ?: "No se recibió respuesta."
+                    val mensajeIa = Mensaje(
+                        contenido = respuesta,
+                        emisorId = "ia",
+                        receptorId = "user",
+                        timestamp = System.currentTimeMillis()
+                    )
+                    listaMensajes.add(mensajeIa)
+                    adapter.notifyItemInserted(listaMensajes.size - 1)
+                    recyclerView.scrollToPosition(listaMensajes.size - 1)
+                } else {
+                    val errorMsg = "Error: ${response.code()} ${response.message()}"
+                    val mensajeError = Mensaje(
+                        contenido = errorMsg,
+                        emisorId = "ia",
+                        receptorId = "user",
+                        timestamp = System.currentTimeMillis()
+                    )
+                    listaMensajes.add(mensajeError)
+                    adapter.notifyItemInserted(listaMensajes.size - 1)
+                    recyclerView.scrollToPosition(listaMensajes.size - 1)
+                }
+            }
+
+            override fun onFailure(call: Call<OpenAiResponse>, t: Throwable) {
+                val mensajeError = Mensaje(
+                    contenido = "Error: ${t.localizedMessage}",
+                    emisorId = "ia",
+                    receptorId = "user",
+                    timestamp = System.currentTimeMillis()
+                )
+                listaMensajes.add(mensajeError)
+                adapter.notifyItemInserted(listaMensajes.size - 1)
+                recyclerView.scrollToPosition(listaMensajes.size - 1)
+            }
+        })
     }
 }
