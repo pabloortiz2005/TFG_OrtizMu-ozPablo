@@ -11,5 +11,9 @@
         android:title="Usuarios"
         android:icon="@drawable/ic_user"
         app:showAsAction="never"/>
+    <item
+        android:id="@+id/menu_privacidad"
+        android:title="Privacidad"
+        app:showAsAction="never"/>
 
 </menu>

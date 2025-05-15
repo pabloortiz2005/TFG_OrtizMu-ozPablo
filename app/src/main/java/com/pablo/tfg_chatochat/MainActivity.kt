@@ -27,29 +27,24 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-
         setContentView(R.layout.activity_main)
+
         toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
-        // Configurar RecyclerView de chats
         recyclerViewChats = findViewById(R.id.recyclerViewChats)
         recyclerViewChats.layoutManager = LinearLayoutManager(this)
         chatsAdapter = ChatsAdapter(listaChats) { chat ->
-            // Al pulsar un chat, abres la pantalla de ChatActivity
             val intent = Intent(this, ChatActivity::class.java)
             intent.putExtra("chatId", chat.chatId)
-            intent.putExtra("uidReceptor", chat.uidReceptor)
+            intent.putExtra("uidReceptor", obtenerUidReceptor(chat))
             startActivity(intent)
         }
         recyclerViewChats.adapter = chatsAdapter
 
-
         database = FirebaseDatabase.getInstance().getReference("chats")
 
-
         cargarChats()
-
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val sys = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -58,26 +53,53 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun cargarChats() {
+    override fun onStart() {
+        super.onStart()
+        actualizarEstadoUsuario("online")
+    }
 
+    override fun onStop() {
+        super.onStop()
+        actualizarEstadoUsuario("offline")
+    }
+
+    private fun actualizarEstadoUsuario(estado: String) {
+        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: return
+        FirebaseDatabase.getInstance().getReference("Usuarios")
+            .child(uid)
+            .child("estado")
+            .setValue(estado)
+    }
+
+    private fun cargarChats() {
         val uidActual = FirebaseAuth.getInstance().currentUser?.uid ?: return
+
         database.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 listaChats.clear()
                 for (chatSnap in snapshot.children) {
                     val chat = chatSnap.getValue(ChatModel::class.java)
-                    // Filtra solo aquellos en los que participe el usuario logueado
                     if (chat != null && chat.participants.contains(uidActual)) {
                         listaChats.add(chat)
                     }
                 }
                 chatsAdapter.notifyDataSetChanged()
             }
+
             override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(this@MainActivity,
-                    "Error al leer chats: ${error.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this@MainActivity,
+                    "Error al leer chats: ${error.message}",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         })
+    }
+
+    // Encuentra al receptor en base a la lista de participantes
+    private fun obtenerUidReceptor(chat: ChatModel): String {
+        val uidActual = FirebaseAuth.getInstance().currentUser?.uid ?: ""
+        return chat.participants.firstOrNull { it != uidActual } ?: ""
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -95,8 +117,11 @@ class MainActivity : AppCompatActivity() {
                 true
             }
             R.id.menu_lista_usuarios -> {
-                // Abre la lista de usuarios
                 startActivity(Intent(this, ListaUsuariosActivity::class.java))
+                true
+            }
+            R.id.menu_privacidad -> {
+                startActivity(Intent(this, PrivacyActivity::class.java))
                 true
             }
             else -> super.onOptionsItemSelected(item)

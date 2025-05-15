@@ -1,12 +1,14 @@
 package com.pablo.tfg_chatochat
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import java.text.SimpleDateFormat
+import com.google.firebase.database.*
 import com.pablo.tfg_chatochat.model.ChatModel
+import java.text.SimpleDateFormat
 import java.util.*
 
 class ChatsAdapter(
@@ -24,6 +26,27 @@ class ChatsAdapter(
             lastMsgTxt.text = chat.ultimoMensaje
             timeTxt.text = SimpleDateFormat("HH:mm", Locale.getDefault())
                 .format(Date(chat.timestampUltimoMensaje))
+
+            // Escuchar estado online/offline
+            val estadoRef = FirebaseDatabase.getInstance()
+                .getReference("Usuarios")
+                .child(chat.uidReceptor)
+                .child("estado")
+
+            estadoRef.addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val estado = snapshot.getValue(String::class.java) ?: "offline"
+                    if (estado == "online") {
+                        titleTxt.setTextColor(Color.GREEN)
+                    } else {
+                        titleTxt.setTextColor(Color.RED)
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    titleTxt.setTextColor(Color.GRAY)
+                }
+            })
 
             itemView.setOnClickListener { onChatSelected(chat) }
         }

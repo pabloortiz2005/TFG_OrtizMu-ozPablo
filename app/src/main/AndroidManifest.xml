@@ -19,8 +19,16 @@
             android:name=".ChatActivity"
             android:exported="false" />
         <activity
+            android:name=".ReportarActivity"
+            android:exported="false" />
+
+        <activity
             android:name=".LoginActivity"
             android:exported="false" />
+
+        <activity android:name=".PrivacyActivity"
+            android:exported="false"/>
+
         <activity
             android:name=".RegistroActivity"
             android:exported="false" />

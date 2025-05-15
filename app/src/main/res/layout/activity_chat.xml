@@ -9,39 +9,17 @@
     android:background="@color/primary"
     tools:context=".ChatActivity">
 
-    <View
-        android:id="@+id/viewBackground"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginBottom="@dimen/_16sdp"
-        app:layout_constraintBaseline_toTopOf="@id/layoutSend"
-        app:layout_constraintTop_toTopOf="parent"/>
-
+    <!-- Barra superior: back, título, info -->
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/imageBack"
         android:layout_width="@dimen/_30sdp"
         android:layout_height="@dimen/_30sdp"
         android:layout_marginStart="@dimen/_16sdp"
-        android:layout_marginLeft="@dimen/_16sdp"
         android:layout_marginTop="@dimen/_16sdp"
         android:padding="@dimen/_5sdp"
         android:src="@drawable/ic_back"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBaseline_toTopOf="parent"
-        />
-
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/imageInfo"
-        android:layout_width="@dimen/_30sdp"
-        android:layout_height="@dimen/_30sdp"
-        android:layout_marginEnd="@dimen/_16sdp"
-        android:layout_marginRight="@dimen/_16sdp"
-        android:layout_marginTop="@dimen/_12sdp"
-        android:padding="@dimen/_4sdp"
-        android:src="@drawable/ic_info"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBaseline_toTopOf="parent"
-        />
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
         android:id="@+id/textName"
@@ -55,64 +33,91 @@
         android:textColor="@color/white"
         android:textSize="@dimen/_14ssp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/imageBack"
-        app:layout_constraintStart_toStartOf="@+id/imageInfo"
-        app:layout_constraintEnd_toEndOf="@id/imageBack"
-        app:layout_constraintTop_toTopOf="@+id/imageBack"/>
+        app:layout_constraintStart_toEndOf="@id/imageBack"
+        app:layout_constraintEnd_toStartOf="@id/imageInfo"
+        app:layout_constraintTop_toTopOf="@id/imageBack"
+        app:layout_constraintBottom_toBottomOf="@id/imageBack"/>
 
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imageInfo"
+        android:layout_width="@dimen/_30sdp"
+        android:layout_height="@dimen/_30sdp"
+        android:layout_marginEnd="@dimen/_16sdp"
+        android:layout_marginTop="@dimen/_16sdp"
+        android:padding="@dimen/_4sdp"
+        android:src="@drawable/ic_info"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <!-- RecyclerView para mensajes -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/chatRecyclerView"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         android:clipToPadding="false"
         android:orientation="vertical"
         android:overScrollMode="never"
         android:padding="@dimen/_20sdp"
-        android:visibility="gone"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/layoutSend"/>
+        app:layout_constraintTop_toBottomOf="@id/imageBack"
+        app:layout_constraintBottom_toTopOf="@id/layoutActions"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
+    <!-- Layout inferior con botones de acción y campo texto -->
 
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:layout_width="@dimen/_25sdp"
-        android:layout_height="@dimen/_25sdp"
-        app:layout_constraintBottom_toBottomOf="@id/viewBackground"
-        app:layout_constraintEnd_toEndOf="@+id/viewBackground"
-        app:layout_constraintStart_toStartOf="@+id/viewBackground"
-        app:layout_constraintBottom_toTopOf="@+id/viewBackground"/>
-    
-    <FrameLayout
-        android:id="@+id/layoutSend"
-        android:layout_width="@dimen/_40sdp"
+    <LinearLayout
+        android:id="@+id/layoutActions"
+        android:layout_width="wrap_content"
         android:layout_height="@dimen/_40sdp"
-        android:layout_marginEnd="@dimen/_16sdp"
-        android:layout_marginRight="@dimen/_16sdp"
-        android:layout_marginBottom="@dimen/_16sdp"
-        android:background="@drawable/background_chat_input"
+        android:layout_marginBottom="@dimen/_12sdp"
+        android:layout_marginEnd="@dimen/_8sdp"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        >
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="@dimen/_4sdp"
-            android:layout_marginLeft="@dimen/_4sdp"
-            android:background="@drawable/ic_send"
+            android:id="@+id/btnSubirArchivo"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
             android:padding="@dimen/_8sdp"
-            android:tint="@color/white"/>
+            android:src="@drawable/ic_subir_archivo"
+            android:tint="#9E9E9E"
+            android:contentDescription="Subir archivo"/>
 
-    </FrameLayout>
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/btnGrabarAudio"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:padding="@dimen/_8sdp"
+            android:src="@drawable/ic_grabar_audio"
+            android:tint="#9E9E9E"
+            android:contentDescription="Grabar audio"/>
+
+        <FrameLayout
+            android:id="@+id/layoutSend"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:background="@drawable/background_chat_input">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="@dimen/_8sdp"
+                android:src="@drawable/ic_send"
+                android:tint="#9E9E9E"/>
+        </FrameLayout>
+    </LinearLayout>
 
     <EditText
         android:id="@+id/inputMessage"
         android:layout_width="0dp"
         android:layout_height="@dimen/_40sdp"
         android:layout_marginStart="@dimen/_16sdp"
-        android:layout_marginLeft="@dimen/_16sdp"
         android:layout_marginEnd="@dimen/_8sdp"
-        android:layout_marginRight="@dimen/_8sdp"
         android:layout_marginBottom="@dimen/_12sdp"
         android:background="@drawable/background_chat_input"
         android:hint="Escribe un mensaje"
@@ -124,9 +129,8 @@
         android:textColor="@color/white"
         android:textColorHint="#9E9E9E"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/layoutSend"
-        app:layout_constraintStart_toStartOf="parent"/>
-
-
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/layoutActions"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

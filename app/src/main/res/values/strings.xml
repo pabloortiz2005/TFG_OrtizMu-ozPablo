@@ -16,5 +16,37 @@
     <string name="LoginCorreo">Correo electrónico</string>"
     <string name="LoginContra">Contraseña</string>"
     <string name="LoginBotonIniciarSesion">Iniciar Sesión</string>"
+    <string name="privacy_policy">
+Política de Privacidad\n
+\n
+Tu privacidad es importante para nosotros. En esta aplicación nos comprometemos a proteger la información personal que compartes con nosotros y a manejarla de forma transparente y segura.\n
+\n
+Información que recopilamos:\n
+- Datos que proporcionas directamente, como tu nombre, correo electrónico y cualquier otro dato que ingreses en la aplicación.\n
+- Información de uso, como los mensajes que envías y recibes, para mejorar la experiencia y funcionalidad de la app.\n
+- Datos técnicos como la dirección IP y tipo de dispositivo para asegurar la correcta operación y seguridad.\n
+\n
+Uso de la información:\n
+- Para permitirte comunicarte y compartir contenido con otros usuarios.\n
+- Para mejorar, mantener y personalizar la aplicación.\n
+- Para responder a tus consultas y proporcionarte soporte.\n
+\n
+No compartimos tu información personal con terceros sin tu consentimiento, salvo cuando la ley lo requiera.\n
+\n
+Seguridad:\n
+Implementamos medidas de seguridad para proteger tus datos contra accesos no autorizados, alteraciones o destrucción.\n
+\n
+Tus derechos:\n
+Tienes derecho a acceder, corregir o eliminar tu información personal almacenada en nuestra aplicación. Para ejercer estos derechos, contáctanos a través de los medios proporcionados en la app.\n
+\n
+Cambios en la política:\n
+Podemos actualizar esta política ocasionalmente. Te notificaremos sobre cambios importantes y te recomendamos revisarla periódicamente.\n
+\n
+Contacto:\n
+Si tienes preguntas sobre esta política de privacidad, por favor contáctanos.\n
+\n
+Gracias por confiar en nuestra aplicación.
+</string>
+
 
 </resources>

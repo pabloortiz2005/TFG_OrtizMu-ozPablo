@@ -1,11 +1,13 @@
 package com.pablo.tfg_chatochat
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -35,6 +37,15 @@ class ChatActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        val imageBack = findViewById<AppCompatImageView>(R.id.imageBack)
+        imageBack.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+
+
+
 
         inputMensaje = findViewById(R.id.inputMessage)
         botonEnviar = findViewById(R.id.layoutSend)
@@ -42,6 +53,13 @@ class ChatActivity : AppCompatActivity() {
 
         uidEmisor = FirebaseAuth.getInstance().currentUser?.uid ?: return
         uidReceptor = intent.getStringExtra("uidReceptor") ?: return
+
+        val imageInfo = findViewById<AppCompatImageView>(R.id.imageInfo)
+        imageInfo.setOnClickListener {
+            val intent = Intent(this, ReportarActivity::class.java)
+            intent.putExtra("uidReportado", uidReceptor)
+            startActivity(intent)
+        }
 
         chatId = if (uidEmisor < uidReceptor)
             "${uidEmisor}_$uidReceptor"
@@ -194,28 +212,28 @@ class ChatActivity : AppCompatActivity() {
                 }
             }
 
-            // Este método se llama si el mensaje cambia
+
             override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
                 Log.d("Firebase", "onChildChanged llamado")
-                // Aquí podrías actualizar un mensaje en caso de que su contenido cambie, si es necesario
+
             }
 
             // Este método se llama si un mensaje es eliminado
             override fun onChildRemoved(snapshot: DataSnapshot) {
                 Log.d("Firebase", "onChildRemoved llamado")
-                // Aquí podrías eliminar un mensaje de la lista si es necesario
+
             }
 
             // Este método se llama si un mensaje se mueve dentro de la base de datos (cambio de orden)
             override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
                 Log.d("Firebase", "onChildMoved llamado")
-                // Aquí podrías manejar la reordenación de los mensajes si es necesario
+
             }
 
             // Este método se llama si la lectura de datos es cancelada
             override fun onCancelled(error: DatabaseError) {
                 Log.d("Firebase", "onCancelled: ${error.message}")
-                // Aquí podrías manejar el error de forma apropiada
+
             }
         })
     }
