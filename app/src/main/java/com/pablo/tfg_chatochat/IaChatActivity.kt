@@ -59,7 +59,7 @@ class IaChatActivity : AppCompatActivity() {
             }
         }
     }
-//
+
     private fun simularRespuestaIA(pregunta: String) {
         val client = OkHttpClient.Builder()
             .addInterceptor { chain ->
