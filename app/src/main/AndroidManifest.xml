@@ -19,6 +19,9 @@
             android:name=".ChatActivity"
             android:exported="false" />
         <activity
+            android:name=".IaChatActivity"
+            android:exported="false" />
+        <activity
             android:name=".ReportarActivity"
             android:exported="false" />
 

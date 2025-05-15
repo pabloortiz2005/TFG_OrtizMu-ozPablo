@@ -64,4 +64,10 @@ dependencies {
     implementation("com.google.firebase:firebase-messaging:24.1.1")
     implementation ("com.google.firebase:firebase-firestore:25.0.0")
 
+    //IA
+
+    implementation ("com.squareup.retrofit2:retrofit:2.9.0'")
+    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+
+
 }

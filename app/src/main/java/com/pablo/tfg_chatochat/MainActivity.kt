@@ -124,6 +124,10 @@ class MainActivity : AppCompatActivity() {
                 startActivity(Intent(this, PrivacyActivity::class.java))
                 true
             }
+            R.id.menu_IA -> {
+                startActivity(Intent(this, IaChatActivity::class.java))
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }

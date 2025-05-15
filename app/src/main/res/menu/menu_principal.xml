@@ -15,5 +15,9 @@
         android:id="@+id/menu_privacidad"
         android:title="Privacidad"
         app:showAsAction="never"/>
+    <item
+        android:id="@+id/menu_IA"
+        android:title="IA"
+        app:showAsAction="never"/>
 
 </menu>
