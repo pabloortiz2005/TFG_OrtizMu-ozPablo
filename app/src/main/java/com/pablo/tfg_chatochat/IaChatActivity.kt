@@ -64,7 +64,7 @@ class IaChatActivity : AppCompatActivity() {
         val client = OkHttpClient.Builder()
             .addInterceptor { chain ->
                 val newRequest = chain.request().newBuilder()
-                    .addHeader("Authorization", "Bearer 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")
+                    .addHeader("Authorization", "Bearer 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")
                     .build()
                 chain.proceed(newRequest)
             }
