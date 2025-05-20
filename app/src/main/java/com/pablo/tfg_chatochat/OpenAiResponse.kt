@@ -8,7 +8,7 @@ data class OpenAiResponse(
     val model: String? = null,
     val choices: List<Choice> = emptyList()
 )
-
+//
 
 data class Choice(
     val index: Int = 0,
