@@ -61,6 +61,7 @@ class ChatActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        //Creamos el id del chat con las uid de los participantes
         chatId = if (uidEmisor < uidReceptor)
             "${uidEmisor}_$uidReceptor"
         else

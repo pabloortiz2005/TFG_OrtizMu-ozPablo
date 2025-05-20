@@ -14,6 +14,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 
+//Actividad para registrate en la app
+
 class RegistroActivity : AppCompatActivity() {
 
     private lateinit var RegistroNombre: EditText

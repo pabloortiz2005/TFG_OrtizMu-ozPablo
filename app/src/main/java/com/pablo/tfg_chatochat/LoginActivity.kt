@@ -20,6 +20,8 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
 
 
+    //Clase para iniciar sesión
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()

@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 
+//Clase para ver todos los usuarios de la app
+
 class ListaUsuariosActivity : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView

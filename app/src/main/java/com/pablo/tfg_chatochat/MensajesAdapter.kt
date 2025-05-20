@@ -8,7 +8,13 @@ import androidx.recyclerview.widget.RecyclerView
 import java.text.SimpleDateFormat
 import java.util.*
 
+
+
+//Aqui trabajamos con los mensajes de los chats
+
 class MensajesAdapter(
+
+
     private val mensajes: MutableList<Mensaje>,
     private val uidActual: String
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {

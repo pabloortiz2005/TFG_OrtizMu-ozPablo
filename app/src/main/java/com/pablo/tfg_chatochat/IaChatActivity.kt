@@ -56,10 +56,12 @@ class IaChatActivity : AppCompatActivity() {
         }
     }
 
+    //Manejo para conectar con la IA
+
     private fun enviarMensajeAOpenAI(pregunta: String) {
         val apiKey = "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"
 
-        // Implementación completamente explícita del interceptor
+
         val interceptor = object : okhttp3.Interceptor {
             override fun intercept(chain: okhttp3.Interceptor.Chain): okhttp3.Response {
                 val newRequest = chain.request().newBuilder()

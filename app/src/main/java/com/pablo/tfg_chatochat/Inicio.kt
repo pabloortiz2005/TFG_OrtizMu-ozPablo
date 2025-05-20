@@ -11,7 +11,7 @@ import androidx.core.view.WindowInsetsCompat
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.FirebaseAuth
 
-
+// Clase inicial para decidir si iniciar sesion o registrarte
 class Inicio : AppCompatActivity() {
 
     private lateinit var BotonIrRegistro: Button

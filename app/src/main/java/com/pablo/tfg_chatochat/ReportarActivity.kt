@@ -7,6 +7,8 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
+//Actividad para reportar
+
 class ReportarActivity : AppCompatActivity() {
 
     private lateinit var textUsuarioId: TextView

@@ -16,6 +16,9 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.pablo.tfg_chatochat.model.ChatModel
 
+
+//En esta clase se manejan los chats activos , el estado del usuario y el menu
+
 class MainActivity : AppCompatActivity() {
 
     private lateinit var toolbar: Toolbar
