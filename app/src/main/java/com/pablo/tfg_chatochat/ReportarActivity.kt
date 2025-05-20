@@ -32,8 +32,6 @@ class ReportarActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            // Aquí puedes enviar el reporte a tu backend o Firebase, etc.
-            // Por ahora solo mostramos un mensaje de confirmación
 
             Toast.makeText(this, "Reporte enviado correctamente", Toast.LENGTH_LONG).show()
             finish() // Cierra la activity y vuelve atrás

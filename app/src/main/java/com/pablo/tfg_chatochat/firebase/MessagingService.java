@@ -67,9 +67,9 @@ public class MessagingService extends FirebaseMessagingService {
             }
         }
 
-        // 👉 Crear Intent para abrir el ChatActivity con el uid del emisor
+        // Crear Intent para abrir el ChatActivity con el uid del emisor
         Intent intent = new Intent(this, ChatActivity.class);
-        intent.putExtra("uidReceptor", uidEmisor);  // IMPORTANTE: Chat espera este extra
+        intent.putExtra("uidReceptor", uidEmisor);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
         PendingIntent pendingIntent = PendingIntent.getActivity(

@@ -88,7 +88,7 @@ class ChatActivity : AppCompatActivity() {
 
             Log.d("Firebase", "Datos completos del usuario: ${snapshot.value}")
 
-            // Verificamos si existe el nodo del usuario receptor
+            // Verificamos si existe el usuario receptor
             if (snapshot.exists()) {
 
                 var nombreReceptor = "prueba"
@@ -164,7 +164,7 @@ class ChatActivity : AppCompatActivity() {
             }
         }
 
-        // Configuración del RecyclerView
+
         adapter = MensajesAdapter(listaMensajes, uidEmisor)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter

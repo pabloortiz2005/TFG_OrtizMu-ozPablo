@@ -9,7 +9,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class MensajesAdapter(
-    private val mensajes: MutableList<Mensaje>, // Lista mutable
+    private val mensajes: MutableList<Mensaje>,
     private val uidActual: String
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 

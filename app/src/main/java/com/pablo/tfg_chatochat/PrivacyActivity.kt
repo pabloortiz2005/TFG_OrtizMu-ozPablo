@@ -9,7 +9,7 @@ class PrivacyActivity : AppCompatActivity() {
         setContentView(R.layout.activity_privacy)
 
         supportActionBar?.title = "Privacidad"
-        supportActionBar?.setDisplayHomeAsUpEnabled(true) // Para mostrar el botón atrás en la barra
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
     override fun onSupportNavigateUp(): Boolean {
