@@ -15,6 +15,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.pablo.tfg_chatochat.DataClass.ChatModel
+import com.pablo.tfg_chatochat.IA.IaChatActivity
+import com.pablo.tfg_chatochat.adaptadores.ChatsAdapter
 
 
 //En esta clase se manejan los chats activos , el estado del usuario y el menu

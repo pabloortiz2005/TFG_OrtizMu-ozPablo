@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.pablo.tfg_chatochat.DataClass.Mensaje
+import com.pablo.tfg_chatochat.adaptadores.MensajesAdapter
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.json.JSONObject
@@ -66,7 +67,7 @@ class ChatActivity : AppCompatActivity() {
             .getReference("chats")
             .child(chatId)
 
-        // Crear nodo participants si no existe y también crear titulos con nombres
+        // Crear participants si no existe y también crear titulos con nombres
         chatRef.child("participants").get().addOnSuccessListener { snapshot ->
             if (!snapshot.exists()) {
                 val participantes = listOf(uidEmisor, uidReceptor)

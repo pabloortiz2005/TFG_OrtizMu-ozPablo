@@ -1,4 +1,4 @@
-package com.pablo.tfg_chatochat
+package com.pablo.tfg_chatochat.IA
 
 
 data class OpenAiResponse(

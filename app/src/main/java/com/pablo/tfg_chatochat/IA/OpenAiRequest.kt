@@ -1,4 +1,4 @@
-package com.pablo.tfg_chatochat
+package com.pablo.tfg_chatochat.IA
 
 data class OpenAiRequest(
     val model: String = "gpt-3.5-turbo",

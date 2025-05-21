@@ -1,5 +1,5 @@
 
-package com.pablo.tfg_chatochat
+package com.pablo.tfg_chatochat.IA
 
 import retrofit2.Call
 import retrofit2.http.Body

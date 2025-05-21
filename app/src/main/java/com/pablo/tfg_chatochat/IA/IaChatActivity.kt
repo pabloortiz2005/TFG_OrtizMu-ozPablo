@@ -1,4 +1,4 @@
-package com.pablo.tfg_chatochat
+package com.pablo.tfg_chatochat.IA
 
 import android.os.Bundle
 import android.widget.EditText
@@ -8,6 +8,8 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.pablo.tfg_chatochat.DataClass.Mensaje
+import com.pablo.tfg_chatochat.R
+import com.pablo.tfg_chatochat.adaptadores.MensajesAdapter
 import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Callback

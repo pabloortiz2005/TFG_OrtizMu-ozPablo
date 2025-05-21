@@ -1,4 +1,4 @@
-package com.pablo.tfg_chatochat
+package com.pablo.tfg_chatochat.adaptadores
 
 import android.graphics.Color
 import android.util.Log
@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.pablo.tfg_chatochat.DataClass.ChatModel
+import com.pablo.tfg_chatochat.R
 import java.text.SimpleDateFormat
 import java.util.*
 

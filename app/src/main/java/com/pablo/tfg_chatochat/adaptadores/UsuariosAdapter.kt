@@ -1,4 +1,4 @@
-package com.pablo.tfg_chatochat
+package com.pablo.tfg_chatochat.adaptadores
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.pablo.tfg_chatochat.DataClass.Usuario
+import com.pablo.tfg_chatochat.R
 
 class UsuariosAdapter(
     private val usuarios: List<Usuario>,
