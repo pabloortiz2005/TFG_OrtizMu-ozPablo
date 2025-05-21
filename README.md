@@ -5,7 +5,7 @@ ChatoChat es una aplicación de mensajería instantánea para Android con integr
 ## ✨ Funcionalidades
 
 - 📱 Chat entre usuarios en tiempo real (Firebase Realtime Database)
-- 🔔 Notificaciones push con Firebase Cloud Messaging (FCM)
+- 🔔 Notificaciones push con Firebase Cloud Messaging (FCM) (Desarrollado pero sin funcionalidad hasta añadir fondos)
 - 🟢 Estado en línea de los usuarios
 - 🤖 Chat con IA integrada usando `gpt-3.5-turbo` de OpenAI (Suele negar el permiso por no ser de un plan de pago)
 - 💬 Diseño moderno con RecyclerView y actividades separadas
