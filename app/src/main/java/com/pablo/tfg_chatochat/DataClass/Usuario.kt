@@ -1,4 +1,4 @@
-package com.pablo.tfg_chatochat
+package com.pablo.tfg_chatochat.DataClass
 
 data class Usuario(
     val uid: String = "",

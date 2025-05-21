@@ -7,13 +7,14 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.database.*
-import com.pablo.tfg_chatochat.model.ChatModel
+import com.pablo.tfg_chatochat.DataClass.ChatModel
 import java.text.SimpleDateFormat
 import java.util.*
 
 class ChatsAdapter(
     private val chats: List<ChatModel>,
-    private val onChatSelected: (ChatModel) -> Unit
+    private val onChatSelected: (ChatModel) -> Unit,
+    private val onChatLongClick: (ChatModel) -> Unit
 ) : RecyclerView.Adapter<ChatsAdapter.ChatViewHolder>() {
 
     inner class ChatViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -26,6 +27,11 @@ class ChatsAdapter(
             lastMsgTxt.text = chat.ultimoMensaje
             timeTxt.text = SimpleDateFormat("HH:mm", Locale.getDefault())
                 .format(Date(chat.timestampUltimoMensaje))
+            itemView.setOnLongClickListener {
+                onChatLongClick(chat)
+                true
+            }
+
 
             // Escuchar estado online/offline
             val estadoRef = FirebaseDatabase.getInstance()

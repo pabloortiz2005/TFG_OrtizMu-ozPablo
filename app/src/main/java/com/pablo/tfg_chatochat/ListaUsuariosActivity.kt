@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import com.pablo.tfg_chatochat.DataClass.Usuario
 
 //Clase para ver todos los usuarios de la app
 

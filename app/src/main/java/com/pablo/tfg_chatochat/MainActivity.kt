@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
-import com.pablo.tfg_chatochat.model.ChatModel
+import com.pablo.tfg_chatochat.DataClass.ChatModel
 
 
 //En esta clase se manejan los chats activos , el estado del usuario y el menu
@@ -37,12 +37,20 @@ class MainActivity : AppCompatActivity() {
 
         recyclerViewChats = findViewById(R.id.recyclerViewChats)
         recyclerViewChats.layoutManager = LinearLayoutManager(this)
-        chatsAdapter = ChatsAdapter(listaChats) { chat ->
-            val intent = Intent(this, ChatActivity::class.java)
-            intent.putExtra("chatId", chat.chatId)
-            intent.putExtra("uidReceptor", obtenerUidReceptor(chat))
-            startActivity(intent)
-        }
+
+        chatsAdapter = ChatsAdapter(
+            listaChats,
+            onChatSelected = { chat ->
+                val intent = Intent(this, ChatActivity::class.java)
+                intent.putExtra("chatId", chat.chatId)
+                intent.putExtra("uidReceptor", obtenerUidReceptor(chat))
+                startActivity(intent)
+            },
+            onChatLongClick = { chat ->
+                borrarChat(chat.chatId)
+            }
+        )
+
         recyclerViewChats.adapter = chatsAdapter
 
         database = FirebaseDatabase.getInstance().getReference("chats")
@@ -54,6 +62,19 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(sys.left, sys.top, sys.right, sys.bottom)
             insets
         }
+    }
+
+
+    private fun borrarChat(chatId: String) {
+        FirebaseDatabase.getInstance().getReference("chats")
+            .child(chatId)
+            .removeValue()
+            .addOnSuccessListener {
+                Toast.makeText(this, "Chat eliminado", Toast.LENGTH_SHORT).show()
+            }
+            .addOnFailureListener {
+                Toast.makeText(this, "Error al eliminar chat", Toast.LENGTH_SHORT).show()
+            }
     }
 
     override fun onStart() {

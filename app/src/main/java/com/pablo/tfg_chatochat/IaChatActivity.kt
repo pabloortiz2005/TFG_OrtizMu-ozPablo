@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.pablo.tfg_chatochat.DataClass.Mensaje
 import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Callback

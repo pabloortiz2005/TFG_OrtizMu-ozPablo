@@ -14,7 +14,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
-import com.pablo.tfg_chatochat.model.ChatModel
+import com.pablo.tfg_chatochat.DataClass.ChatModel
+import com.pablo.tfg_chatochat.DataClass.Mensaje
 
 class ChatActivity : AppCompatActivity() {
 
@@ -92,7 +93,8 @@ class ChatActivity : AppCompatActivity() {
             // Verificamos si existe el usuario receptor
             if (snapshot.exists()) {
 
-                var nombreReceptor = "prueba"
+                val nombreReceptor = snapshot.child("nombre").getValue(String::class.java) ?: "Desconocido"
+
 
                 // Actualiza el título en la UI si es necesario
                 supportActionBar?.title = nombreReceptor

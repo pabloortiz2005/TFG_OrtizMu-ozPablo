@@ -1,4 +1,4 @@
-package com.pablo.tfg_chatochat.model
+package com.pablo.tfg_chatochat.DataClass
 
 data class ChatModel(
     val chatId: String = "",

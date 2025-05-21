@@ -6,8 +6,10 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
+import com.pablo.tfg_chatochat.DataClass.Reporte
 
-//Actividad para reportar
 
 class ReportarActivity : AppCompatActivity() {
 
@@ -23,7 +25,6 @@ class ReportarActivity : AppCompatActivity() {
         inputDescripcion = findViewById(R.id.inputDescripcion)
         btnEnviarReporte = findViewById(R.id.btnEnviarReporte)
 
-        // Recibir el UID pasado desde ChatActivity
         val uidUsuarioReportado = intent.getStringExtra("uidReportado") ?: "Desconocido"
         textUsuarioId.text = "Usuario: $uidUsuarioReportado"
 
@@ -34,9 +35,25 @@ class ReportarActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
+            val uidReportante = FirebaseAuth.getInstance().currentUser?.uid ?: "Anónimo"
 
-            Toast.makeText(this, "Reporte enviado correctamente", Toast.LENGTH_LONG).show()
-            finish() // Cierra la activity y vuelve atrás
+            val reporte = Reporte(
+                uidReportado = uidUsuarioReportado,
+                uidReportante = uidReportante,
+                descripcion = descripcion
+            )
+
+            val referenciaReportes = FirebaseDatabase.getInstance().getReference("reportes")
+            val nuevoReporteRef = referenciaReportes.push()
+
+            nuevoReporteRef.setValue(reporte)
+                .addOnSuccessListener {
+                    Toast.makeText(this, "Reporte enviado correctamente", Toast.LENGTH_LONG).show()
+                    finish()
+                }
+                .addOnFailureListener {
+                    Toast.makeText(this, "Error al enviar el reporte", Toast.LENGTH_SHORT).show()
+                }
         }
     }
 }
