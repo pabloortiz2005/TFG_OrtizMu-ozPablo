@@ -10,6 +10,8 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.pablo.tfg_chatochat.ChatActivity;
@@ -20,11 +22,22 @@ public class MessagingService extends FirebaseMessagingService {
     private static final String CHANNEL_ID = "chat_mensajes";
 
     @Override
-    public void onNewToken(@NonNull String token) {
+    public void onNewToken(String token) {
         super.onNewToken(token);
         Log.d("FCM", "Nuevo token generado: " + token);
 
+        String uid = FirebaseAuth.getInstance().getCurrentUser() != null
+                ? FirebaseAuth.getInstance().getCurrentUser().getUid()
+                : null;
+
+        if (uid != null) {
+            FirebaseDatabase.getInstance().getReference("Usuarios")
+                    .child(uid)
+                    .child("fcmToken")
+                    .setValue(token);
+        }
     }
+
 
     @Override
     public void onMessageReceived(@NonNull RemoteMessage mensajeRemoto) {

@@ -48,12 +48,13 @@ dependencies {
     implementation(libs.firebase.database.ktx)
     implementation(libs.firebase.messaging)
     implementation(libs.firebase.firestore)
+    implementation(libs.androidx.lifecycle.process)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
     implementation ("com.makeramen:roundedimageview:2.3.0")
-
+    implementation("com.squareup.okhttp3:okhttp:4.9.3")
 
     //firebase
     implementation("com.google.firebase:firebase-analytics")

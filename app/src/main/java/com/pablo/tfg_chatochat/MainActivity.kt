@@ -76,7 +76,14 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, "Error al eliminar chat", Toast.LENGTH_SHORT).show()
             }
     }
-
+    override fun onResume() {
+        super.onResume()
+        actualizarEstadoUsuario("online")
+    }
+    override fun onPause() {
+        super.onPause()
+        actualizarEstadoUsuario("offline")
+    }
     override fun onStart() {
         super.onStart()
         actualizarEstadoUsuario("online")
