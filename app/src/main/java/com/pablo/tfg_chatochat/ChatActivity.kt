@@ -84,6 +84,12 @@ class ChatActivity : AppCompatActivity() {
                 crearTitulos(chatRef, uidEmisor, uidReceptor)
             }
         }
+        val imageInfo = findViewById<AppCompatImageView>(R.id.imageInfo)
+        imageInfo.setOnClickListener {
+            val intent = Intent(this, ReportarActivity::class.java)
+            intent.putExtra("uidReportado", uidReceptor)
+            startActivity(intent)
+        }
 
         referenciaChat = chatRef.child("mensajes")
 
