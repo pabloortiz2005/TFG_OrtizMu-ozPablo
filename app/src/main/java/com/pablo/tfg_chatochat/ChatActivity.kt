@@ -100,7 +100,17 @@ class ChatActivity : AppCompatActivity() {
                     receptorId = uidReceptor,
                     timestamp = System.currentTimeMillis()
                 )
-                referenciaChat.push().setValue(mensaje)
+
+                val mensajePush = referenciaChat.push()
+                mensajePush.setValue(mensaje).addOnSuccessListener {
+                    // Actualizar último mensaje y timestamp
+                    val chatRef = FirebaseDatabase.getInstance().getReference("chats").child(chatId)
+                    val updates = mapOf<String, Any>(
+                        "ultimoMensaje" to texto,
+                        "timestampUltimoMensaje" to ServerValue.TIMESTAMP
+                    )
+                    chatRef.updateChildren(updates)
+                }
 
                 // Enviar notificación al receptor
                 val dbUsuarios = FirebaseDatabase.getInstance().getReference("Usuarios")
@@ -116,6 +126,7 @@ class ChatActivity : AppCompatActivity() {
                 inputMensaje.setText("")
             }
         }
+
 
         escucharMensajes()
     }
