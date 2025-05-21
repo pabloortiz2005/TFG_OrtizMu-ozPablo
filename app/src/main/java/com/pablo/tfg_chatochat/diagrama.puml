@@ -1,0 +1,212 @@
+@startuml
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+skinparam classFontColor black
+
+' Paquete DataClass
+package "com.pablo.tfg_chatochat.DataClass" {
+    class ChatModel {
+        +chatId: String
+        +uidEmisor: String
+        +uidReceptor: String
+        +ultimoMensaje: String
+        +timestampUltimoMensaje: Long
+        +participants: List<String>
+        +titulos: Map<String, String>
+    }
+
+    class Mensaje {
+        +contenido: String
+        +emisorId: String
+        +receptorId: String
+        +timestamp: Long
+    }
+
+    class Reporte {
+        +uidReportado: String
+        +uidReportante: String
+        +descripcion: String
+        +timestamp: Long
+    }
+
+    class Usuario {
+        +uid: String
+        +nombre: String
+        +correo: String
+        +estado: String
+    }
+}
+
+' Paquete firebase
+package "com.pablo.tfg_chatochat.firebase" {
+    class MessagingService {
+        +onNewToken(token: String): void
+        +onMessageReceived(mensajeRemoto: RemoteMessage): void
+        -mostrarNotificacion(titulo: String, mensaje: String, uidEmisor: String): void
+    }
+}
+
+' Paquete UI (Activities)
+package "com.pablo.tfg_chatochat" {
+    class Bienvenida {
+        +onCreate(Bundle): void
+        -mostrarBienvenida(): void
+    }
+
+    class ChatActivity {
+        +onCreate(Bundle): void
+        -crearTitulos(chatRef, uidEmisor, uidReceptor): void
+        -escucharMensajes(): void
+        -enviarNotificacion(tokenDestino, titulo, mensaje): void
+    }
+
+    class IaChatActivity {
+        +onCreate(Bundle): void
+        -enviarMensajeAOpenAI(pregunta: String): void
+    }
+
+    class Inicio {
+        +onCreate(Bundle): void
+        +onStart(): void
+        -ComprobarSesion(): void
+    }
+
+    class ListaUsuariosActivity {
+        +onCreate(Bundle): void
+        -cargarUsuarios(): void
+        -buscarUsuarios(query: String): void
+    }
+
+    class ChatsAdapter {
+        +onCreateViewHolder(...): ChatViewHolder
+        +onBindViewHolder(...): void
+        +getItemCount(): int
+        -ChatViewHolder
+    }
+
+    class MensajesAdapter {
+        +getItemViewType(position: Int): Int
+        +onCreateViewHolder(...): RecyclerView.ViewHolder
+        +onBindViewHolder(...): void
+        +getItemCount(): Int
+        +agregarMensaje(mensaje: Mensaje): void
+    }
+
+    class LoginActivity {
+        +onCreate(Bundle): void
+        -InicializarV(): void
+        -ValidarDatos(): void
+        -IniciarSesion(email: String, contra: String): void
+    }
+
+    class MainActivity {
+        +onCreate(Bundle): void
+        +onStart(): void
+        +onResume(): void
+        +onPause(): void
+        +onStop(): void
+        +onCreateOptionsMenu(Menu): Boolean
+        +onOptionsItemSelected(MenuItem): Boolean
+        -actualizarEstadoUsuario(estado: String): void
+        -cargarChats(): void
+        -obtenerUidReceptor(chat: ChatModel): String
+        -borrarChat(chatId: String): void
+    }
+
+    class PrivacyActivity {
+        +onCreate(Bundle): void
+        +onSupportNavigateUp(): Boolean
+    }
+
+    class RegistroActivity {
+        +onCreate(Bundle): void
+        -InicializarV(): void
+        -ValidarDatos(): void
+        -RegistrarUsuario(nombre: String, correo: String, contraseña: String): void
+    }
+
+    class ReportarActivity {
+        +onCreate(Bundle): void
+    }
+
+    class UsuariosAdapter {
+        +onCreateViewHolder(...): UsuarioViewHolder
+        +onBindViewHolder(...): void
+        +getItemCount(): Int
+    }
+}
+
+' Paquete OpenAI
+package "com.pablo.tfg_chatochat.OpenAI" {
+    class OpenAiRequest {
+        +model: String
+        +messages: List<Message>
+    }
+
+    class Message {
+        +role: String
+        +content: String
+    }
+
+    class OpenAiResponse {
+        +id: String
+        +object: String
+        +created: Long
+        +model: String
+        +choices: List<Choice>
+    }
+
+    class Choice {
+        +index: Int
+        +message: Message
+        +finish_reason: String
+    }
+
+    interface OpenAiService {
+        +enviarMensaje(request: OpenAiRequest): Call<OpenAiResponse>
+    }
+}
+
+' Relaciones entre clases
+ChatActivity --> Mensaje : usa
+ChatActivity --> ChatModel : actualiza
+MessagingService --> ChatActivity : abre
+MessagingService --> Usuario : usa fcmToken
+
+ChatsAdapter --> ChatModel : lista
+ChatsAdapter --> Usuario : consulta estado
+ChatsAdapter --> FirebaseAuth : autenticación
+
+IaChatActivity --> Mensaje : construye / muestra
+IaChatActivity --> MensajesAdapter : usa
+IaChatActivity --> OpenAiService : comunica
+
+MensajesAdapter --> Mensaje : visualiza
+
+ListaUsuariosActivity --> Usuario : consulta
+ListaUsuariosActivity --> ChatActivity : abre
+ListaUsuariosActivity --> UsuariosAdapter : usa
+
+RegistroActivity --> FirebaseAuth : usa
+RegistroActivity --> FirebaseDatabase : usa
+
+ReportarActivity --> Reporte : crea
+ReportarActivity --> FirebaseDatabase : usa
+
+UsuariosAdapter --> Usuario : lista
+UsuariosAdapter --> ListaUsuariosActivity : usada por
+
+Inicio --> RegistroActivity : navega
+Inicio --> LoginActivity : navega
+Inicio --> MainActivity : redirige si logueado
+
+LoginActivity --> FirebaseAuth : inicia sesión
+LoginActivity --> MainActivity : redirige
+
+MainActivity --> ChatActivity : abre
+MainActivity --> ChatsAdapter : usa
+MainActivity --> FirebaseAuth : actualiza estado
+MainActivity --> FirebaseDatabase : carga chats
+MainActivity --> PrivacyActivity : navega
+
+@enduml
