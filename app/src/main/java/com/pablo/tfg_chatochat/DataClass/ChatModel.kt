@@ -7,6 +7,5 @@ data class ChatModel(
     val ultimoMensaje: String = "",
     val timestampUltimoMensaje: Long = 0,
     val participants: List<String> = listOf(),
-    val titulo: String = ""
+    val titulos: Map<String, String> = mapOf()  // <UID, Título que ve ese usuario>
 )
-

@@ -33,20 +33,18 @@ class ChatActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
         val imageBack = findViewById<AppCompatImageView>(R.id.imageBack)
         imageBack.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, MainActivity::class.java))
             finish()
         }
-
-
-
 
         inputMensaje = findViewById(R.id.inputMessage)
         botonEnviar = findViewById(R.id.layoutSend)
@@ -62,47 +60,39 @@ class ChatActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        //Creamos el id del chat con las uid de los participantes
         chatId = if (uidEmisor < uidReceptor)
             "${uidEmisor}_$uidReceptor"
         else
             "${uidReceptor}_$uidEmisor"
 
-        // Referencia para los mensajes
         referenciaChat = FirebaseDatabase.getInstance()
             .getReference("chats")
             .child(chatId)
             .child("mensajes")
 
-        // Verificar si el chat ya existe
         val referenciaChatMeta = FirebaseDatabase.getInstance()
             .getReference("chats")
             .child(chatId)
 
-        // Obtener el nombre del receptor
         val dbUsuarios = FirebaseDatabase.getInstance().getReference("Usuarios")
+        val emisorTask = dbUsuarios.child(uidEmisor).get()
+        val receptorTask = dbUsuarios.child(uidReceptor).get()
 
-        // Log para verificar el UID del receptor
-        Log.d("Firebase", "Intentando buscar usuario con UID: $uidReceptor")
+        emisorTask.addOnSuccessListener { emisorSnapshot ->
+            receptorTask.addOnSuccessListener { receptorSnapshot ->
+                val nombreEmisor = emisorSnapshot.child("nombre").getValue(String::class.java) ?: "Usuario"
+                val nombreReceptor = receptorSnapshot.child("nombre").getValue(String::class.java) ?: "Usuario"
 
-
-        dbUsuarios.child(uidReceptor).get().addOnSuccessListener { snapshot ->
-
-            Log.d("Firebase", "Datos completos del usuario: ${snapshot.value}")
-
-            // Verificamos si existe el usuario receptor
-            if (snapshot.exists()) {
-
-                val nombreReceptor = snapshot.child("nombre").getValue(String::class.java) ?: "Desconocido"
-
-
-                // Actualiza el título en la UI si es necesario
+                // Mostrar el título correcto para el emisor
                 supportActionBar?.title = nombreReceptor
 
-                // Verifica si el chat existe
                 referenciaChatMeta.get().addOnSuccessListener { chatSnapshot ->
                     if (!chatSnapshot.exists()) {
-                        // Si el chat no existe, crea el nuevo chat con el nombre del receptor como título
+                        val titulos = mapOf(
+                            uidEmisor to nombreReceptor,
+                            uidReceptor to nombreEmisor
+                        )
+
                         val chat = ChatModel(
                             chatId = chatId,
                             uidEmisor = uidEmisor,
@@ -110,63 +100,28 @@ class ChatActivity : AppCompatActivity() {
                             ultimoMensaje = "",
                             timestampUltimoMensaje = System.currentTimeMillis(),
                             participants = listOf(uidEmisor, uidReceptor),
-                            titulo = nombreReceptor  // Asignar el nombre del receptor como título del chat
+                            titulos = titulos
                         )
-
 
                         referenciaChatMeta.setValue(chat).addOnCompleteListener {
                             if (it.isSuccessful) {
-                                Log.d("Firebase", "Chat creado exitosamente con título: $nombreReceptor")
+                                Log.d("Firebase", "Chat creado con títulos personalizados.")
                             } else {
-                                Log.d("Firebase", "Error al crear el chat: ${it.exception?.message}")
+                                Log.e("Firebase", "Error al crear el chat: ${it.exception?.message}")
                             }
                         }
-                    }
-                }
-            } else {
-                Log.e("Firebase", "No se encontró al usuario con UID: $uidReceptor")
-
-                val nombreReceptor = "error"
-                supportActionBar?.title = nombreReceptor
-
-
-                referenciaChatMeta.get().addOnSuccessListener { chatSnapshot ->
-                    if (!chatSnapshot.exists()) {
-                        val chat = ChatModel(
-                            chatId = chatId,
-                            uidEmisor = uidEmisor,
-                            uidReceptor = uidReceptor,
-                            ultimoMensaje = "",
-                            timestampUltimoMensaje = System.currentTimeMillis(),
-                            participants = listOf(uidEmisor, uidReceptor),
-                            titulo = nombreReceptor
-                        )
-                        referenciaChatMeta.setValue(chat)
+                    } else {
+                        // Si el chat ya existe, actualizar el título de la barra superior con el que corresponde
+                        val chat = chatSnapshot.getValue(ChatModel::class.java)
+                        val titulo = chat?.titulos?.get(uidEmisor) ?: "Chat"
+                        supportActionBar?.title = titulo
                     }
                 }
             }
         }.addOnFailureListener { exception ->
             Log.e("Firebase", "Error al obtener datos del usuario: ${exception.message}")
-
-            val nombreReceptor = "mal"
-            supportActionBar?.title = nombreReceptor
-
-            referenciaChatMeta.get().addOnSuccessListener { chatSnapshot ->
-                if (!chatSnapshot.exists()) {
-                    val chat = ChatModel(
-                        chatId = chatId,
-                        uidEmisor = uidEmisor,
-                        uidReceptor = uidReceptor,
-                        ultimoMensaje = "",
-                        timestampUltimoMensaje = System.currentTimeMillis(),
-                        participants = listOf(uidEmisor, uidReceptor),
-                        titulo = nombreReceptor
-                    )
-                    referenciaChatMeta.setValue(chat)
-                }
-            }
+            supportActionBar?.title = "Chat"
         }
-
 
         adapter = MensajesAdapter(listaMensajes, uidEmisor)
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -182,7 +137,6 @@ class ChatActivity : AppCompatActivity() {
                     receptorId = uidReceptor,
                     timestamp = System.currentTimeMillis()
                 )
-                // Guardar el mensaje en Firebase
                 referenciaChat.push().setValue(mensaje)
                 inputMensaje.setText("")
             }
@@ -193,53 +147,22 @@ class ChatActivity : AppCompatActivity() {
 
     private fun escucharMensajes() {
         referenciaChat.addChildEventListener(object : ChildEventListener {
-            // Este método se llama cada vez que un nuevo mensaje es agregado a la base de datos
             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
-                Log.d("Firebase", "onChildAdded llamado") // Verifica que la función se esté ejecutando correctamente
-
                 val mensaje = snapshot.getValue(Mensaje::class.java)
-                Log.d("Firebase", "Mensaje recibido: $mensaje") // Verifica el contenido del mensaje recibido
-
                 mensaje?.let {
-                    // Si el mensaje no es nulo, lo agregamos a la lista de mensajes
                     listaMensajes.add(it)
-
-                    // Notificamos al adapter que hemos agregado un nuevo mensaje
                     adapter.notifyItemInserted(listaMensajes.size - 1)
-
-                    // Desplazamos el RecyclerView hasta el último mensaje para mantener la vista actualizada
                     recyclerView.scrollToPosition(listaMensajes.size - 1)
-
-                    // Aseguramos que el RecyclerView se haga visible una vez que haya mensajes
                     recyclerView.visibility = View.VISIBLE
                 }
             }
 
-
-            override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
-                Log.d("Firebase", "onChildChanged llamado")
-
-            }
-
-            // Este método se llama si un mensaje es eliminado
-            override fun onChildRemoved(snapshot: DataSnapshot) {
-                Log.d("Firebase", "onChildRemoved llamado")
-
-            }
-
-            // Este método se llama si un mensaje se mueve dentro de la base de datos (cambio de orden)
-            override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
-                Log.d("Firebase", "onChildMoved llamado")
-
-            }
-
-            // Este método se llama si la lectura de datos es cancelada
+            override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {}
+            override fun onChildRemoved(snapshot: DataSnapshot) {}
+            override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {}
             override fun onCancelled(error: DatabaseError) {
-                Log.d("Firebase", "onCancelled: ${error.message}")
-
+                Log.e("Firebase", "Error al escuchar mensajes: ${error.message}")
             }
         })
     }
-
-
 }
