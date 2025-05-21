@@ -17,6 +17,10 @@ ChatoChat es una aplicación de mensajería instantánea para Android con integr
 - Firebase Cloud Messaging (FCM)
 - OpenAI API (Chat Completions)
 - OkHttp + Retrofit
+- Android Studio
+- Figma
+- RemoveBG
+- Trello
 
 ## 🚀 Vías Futuras
 
