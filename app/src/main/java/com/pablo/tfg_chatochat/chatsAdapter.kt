@@ -1,6 +1,7 @@
 package com.pablo.tfg_chatochat
 
 import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,7 +19,7 @@ class ChatsAdapter(
     private val onChatLongClick: (ChatModel) -> Unit
 ) : RecyclerView.Adapter<ChatsAdapter.ChatViewHolder>() {
 
-    private val uidActual = FirebaseAuth.getInstance().currentUser?.uid
+    private val uidActual = FirebaseAuth.getInstance().currentUser?.uid ?: ""
 
     inner class ChatViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val titleTxt: TextView = itemView.findViewById(R.id.chatTitle)
@@ -41,7 +42,8 @@ class ChatsAdapter(
             }
 
             // Estado online/offline basado en el "otro" participante
-            val uidOtro = if (chat.uidEmisor == uidActual) chat.uidReceptor else chat.uidEmisor
+            // Obtener el uid del otro usuario de la lista de participantes
+            val uidOtro = chat.participants.firstOrNull { it != uidActual } ?: ""
             val estadoRef = FirebaseDatabase.getInstance()
                 .getReference("Usuarios")
                 .child(uidOtro)
@@ -52,10 +54,12 @@ class ChatsAdapter(
                     val estado = snapshot.getValue(String::class.java) ?: "offline"
                     titleTxt.setTextColor(
                         when (estado) {
-                            "online" -> Color.GREEN
-                            else -> Color.RED
+                            "online" -> Color.parseColor("#4CAF50")
+                            else -> Color.parseColor("#9E9E9E")
                         }
                     )
+                    // Debug para verificar
+                    Log.d("ChatsAdapter", "Estado de $uidOtro: $estado, Color: ${if (estado == "online") "VERDE" else "GRIS"}")
                 }
 
                 override fun onCancelled(error: DatabaseError) {
